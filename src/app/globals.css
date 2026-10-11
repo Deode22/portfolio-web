@@ -1,0 +1,333 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Tailwind v4 theme bridge ---------------------------------------------- */
+@theme inline {
+  /* Surfaces */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  /* Elevation ladder — the hairline world has no shadows, so depth is
+     carried by surface steps and rule brightness instead. */
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-rule: var(--rule);
+  --color-rule-strong: var(--rule-strong);
+
+  /* Brand */
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-brand-strong: var(--brand-strong);
+  --color-brand-strong-foreground: var(--brand-strong-foreground);
+
+  /* Neuter shadcn "accent" so hover states stay neutral, not brown */
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  /* Rest of shadcn tokens */
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-destructive: var(--destructive);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  /* Sidebar (unused, kept for shadcn compatibility) */
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Type system (fixed from self-reference bug) */
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains-mono);
+  --font-heading: var(--font-space-grotesk);
+
+  /* Geometry: tight, hairline aesthetic */
+  --radius: 0.25rem;
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* Layout — one measure for every section so all edges align on scroll */
+  --container-shell: 80rem;
+  --container-prose: 68ch;
+
+  /* Motion — explicit curves; never ease-in on a UI element */
+  --transition-ui: color, background-color, border-color, text-decoration-color,
+    fill, stroke, opacity, transform;
+  --ease-console: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-console-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --duration-fast: 120ms;
+  --duration-base: 180ms;
+  --duration-slow: 320ms;
+}
+
+/* Terminal de campo — light fallback (only used if user removes .dark) --- */
+:root {
+  --background: #E8E6DF;
+  --foreground: #0A0B0A;
+  --card: #F2EFE7;
+  --card-foreground: #0A0B0A;
+  --popover: #F2EFE7;
+  --popover-foreground: #0A0B0A;
+
+  --surface: #EDEAE1;
+  --surface-raised: #FBF9F4;
+  --rule: #B4AE9E;
+  --rule-strong: #8E8878;
+
+  --primary: #8C5A3A;
+  --primary-foreground: #F5F2EC;
+  --brand-strong: #6B4024;
+  --brand-strong-foreground: #0A0B0A;
+
+  --accent: #DDD8C8;
+  --accent-foreground: #0A0B0A;
+
+  --secondary: #DDD8C8;
+  --secondary-foreground: #0A0B0A;
+  --muted: #DDD8C8;
+  --muted-foreground: #5A5C55;
+  --destructive: #7A2B22;
+  --input: #C6C0B0;
+  --border: #B4AE9E;
+  --ring: #6B4024;
+
+  --chart-1: #8C5A3A;
+  --chart-2: #6B8E23;
+  --chart-3: #7A2B22;
+  --chart-4: #4A6FA5;
+  --chart-5: #5A5C55;
+
+  --sidebar: #F2EFE7;
+  --sidebar-foreground: #0A0B0A;
+  --sidebar-primary: #8C5A3A;
+  --sidebar-primary-foreground: #F5F2EC;
+  --sidebar-accent: #DDD8C8;
+  --sidebar-accent-foreground: #0A0B0A;
+  --sidebar-border: #B4AE9E;
+  --sidebar-ring: #6B4024;
+}
+
+/* Terminal de campo — DARK (default theme for this site) ---------------- */
+.dark {
+  --background: #0A0B0A;
+  --foreground: #E8E6DF;
+  --card: #141613;
+  --card-foreground: #E8E6DF;
+  --popover: #141613;
+  --popover-foreground: #E8E6DF;
+
+  /* Elevation ladder: background → surface → card → surface-raised */
+  --surface: #0F100E;
+  --surface-raised: #1B1E18;
+
+  /* Hairlines. `--rule` matches `--border`; `--rule-strong` is reserved for
+     interactive edges (hover, active nav, focused rows) so a live element is
+     distinguishable from a static one without any colour shift. */
+  --rule: #26281F;
+  --rule-strong: #35392C;
+
+  /* Burnt oxide — primary CTA, large text, map highlights */
+  --primary: #8C5A3A;
+  --primary-foreground: #F5F2EC;
+
+  /* Lighter oxide for small text, links, focus rings — AA contrast */
+  --brand-strong: #C08050;
+  --brand-strong-foreground: #0A0B0A;
+
+  /* Neuter shadcn "accent" so hover states stay neutral */
+  --accent: #1E201B;
+  --accent-foreground: #E8E6DF;
+
+  --secondary: #1E201B;
+  --secondary-foreground: #E8E6DF;
+  --muted: #1E201B;
+  --muted-foreground: #8C8F87;
+  --destructive: #B83A2B;
+  --input: #26281F;
+  --border: #26281F;
+  --ring: #C08050;
+
+  --chart-1: #C08050;
+  --chart-2: #9DA68A;
+  --chart-3: #B83A2B;
+  --chart-4: #6F8AA8;
+  --chart-5: #8C8F87;
+
+  --sidebar: #0A0B0A;
+  --sidebar-foreground: #E8E6DF;
+  --sidebar-primary: #8C5A3A;
+  --sidebar-primary-foreground: #F5F2EC;
+  --sidebar-accent: #1E201B;
+  --sidebar-accent-foreground: #E8E6DF;
+  --sidebar-border: #26281F;
+  --sidebar-ring: #C08050;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+    font-feature-settings: "ss01", "cv11";
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+    /* Theme the scrollbar from the palette — it ships with the browser and
+       belongs to no design system otherwise. */
+    scrollbar-color: var(--rule-strong) transparent;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+  ::selection {
+    background: var(--primary);
+    color: var(--primary-foreground);
+  }
+  /* Single focus system for the whole site. Interactive components opt into
+     this instead of layering their own ring. */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+  /* Skip-link target — clears the sticky header on every breakpoint. 7rem
+     covers the 49px header on desktop and the 49px header plus the 38px index
+     strip on mobile. */
+  .skip-target {
+    scroll-margin-top: 7rem;
+  }
+  a {
+    text-underline-offset: 0.2em;
+  }
+  input,
+  textarea,
+  select {
+    caret-color: var(--brand-strong);
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--rule-strong);
+    border: 3px solid var(--background);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--brand-strong);
+  }
+}
+
+/* Design-system utilities ---------------------------------------------- */
+@utility label-mono {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.6875rem;
+  line-height: 1.1;
+  font-weight: 500;
+  font-feature-settings: "tnum";
+}
+
+@utility numeric {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+@utility hairline {
+  border-width: 1px;
+  border-color: var(--border);
+}
+
+@utility eyebrow {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 0.625rem;
+  font-weight: 500;
+  color: var(--brand-strong);
+}
+
+/* Prose defaults — one measure, balanced headings, no ragged last lines. */
+@utility prose-body {
+  max-width: var(--container-prose);
+  text-wrap: pretty;
+}
+
+@utility headline {
+  font-family: var(--font-heading);
+  text-wrap: balance;
+  letter-spacing: -0.02em;
+}
+
+/* One authored ambient effect in the whole page: light bleeding off the top
+   edge of the console face. Static, so reduced-motion needs no branch. */
+@utility phosphor-bleed {
+  background-image: linear-gradient(
+    to bottom,
+    color-mix(in oklab, var(--primary) 18%, transparent) 0%,
+    color-mix(in oklab, var(--primary) 5%, transparent) 32%,
+    transparent 60%
+  );
+}
+
+/* Console texture: hairline columns, one per content quarter. */
+@utility rule-grid {
+  background-image: repeating-linear-gradient(
+    to right,
+    color-mix(in oklab, var(--rule) 60%, transparent) 0 1px,
+    transparent 1px 25%
+  );
+}
+
+/* Press feedback for anything the pointer can push. Gated on a fine pointer
+   so a tap on touch doesn't leave a stuck active state. */
+@utility pressable {
+  @media (hover: hover) and (pointer: fine) {
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+}
+
+/* Disable ambient animations when the user prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
