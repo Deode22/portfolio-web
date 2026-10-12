@@ -151,7 +151,7 @@ const GEE_DOCS = {
 /** Methodology for the LiDAR tab: the CHM raster and its stand overlay. */
 const LIDAR_DOCS: RasterLayerDocs = {
   methodology: [
-    "Data source: PNOA ALS 2nd Coverage point clouds (0.5–1 pts/m²), classified — ground returns are class 2, canopy returns classes 3–5.",
+    "Data source: PNOA ALS 3rd Coverage point clouds (0.5–4 pts/m²), classified — ground returns are class 2, canopy returns classes 3–5.",
     "Normalization: a Digital Terrain Model is derived from the ground returns (class 2) and a Digital Surface Model from the canopy returns (classes 3–5). Heights are normalized as CHM = DSM − DTM, which removes terrain elevation and leaves canopy height above ground.",
     "Zonal metrics per stand: the 95th percentile height (H_P95, always ground-relative — the DTM is subtracted point by point), the Fraction of Canopy Cover (FCC, share of returns above 2 m), mean height and point density, extracted with laspy/Python.",
     "Because ALS never measures diameter, the dominant Pinus halepensis height drives a regional height-diameter curve (inverted Chapman-Richards) and the recovered diameter feeds the additive biomass system of Ruiz-Peinado, del Río & Montero (2011) for the species. The per-tree total is scaled to the stand by an FCC-derived stem density and published as the estimated timber volume in the stand polygons of the LiDAR PNOA layer.",
